@@ -1,0 +1,68 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+
+{% block title %} Cart | eCommerce {% endblock title %}
+
+{% block content %}
+
+ 
+<!-- Product Section Start -->
+<div class="product-section section section-padding">
+    <div class="container">
+
+        <div class="row">
+            <div class="section-title text-center col mb-30">
+                <h1>Popular Products</h1>
+                <p>All popular product find here</p>
+            </div>
+        </div>
+
+        <div class="row mbn-40">
+            {% for product in products %}
+            <div class="col-xl-3 col-lg-4 col-md-6 col-12 mb-40">
+
+                <div class="product-item">
+                    <div class="product-inner">
+
+                        <div class="image">
+                            <a href="{{product.get_url}}"><img src="{{ product.images.url }}" alt="Image"></a>
+
+                            
+
+                        </div>
+
+                        <div class="content">
+
+                            <div class="content-left">
+
+                                <h4 class="title"><a href="{{product.get_url}}">{{ product.product_name }}</a></h4>
+
+                                <div class="ratting">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-half-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                </div>
+
+                                <h5 class="size">Size: <span>S</span><span>M</span><span>L</span><span>XL</span></h5>
+                                <h5 class="color">Color: <span style="background-color: #ffb2b0"></span><span style="background-color: #0271bc"></span><span style="background-color: #efc87c"></span><span style="background-color: #00c183"></span></h5>
+
+                            </div>
+                            <div class="content-right">
+                                <a href="{{product.get_url}}"class="price">${{product.price}}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div><!-- Product Section End -->
+
+
+
+
+{% endblock content %}

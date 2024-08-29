@@ -1,0 +1,239 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+
+{% block title %} Cart | Store {% endblock title %}
+
+{% block content %}
+  <!-- Page Banner Section Start -->
+  <div class="page-banner-section section" style="background-image: url(assets/images/hero/hero-1.jpg)">
+    <div class="container">
+        {% if 'search' in request.path %}
+            <h1>Search Results </h1>
+         {% else %}
+        <div class="row">
+            <div class="page-banner-content col">
+
+                <h1>Shop </h1>
+                <ul class="page-breadcrumb">
+                    <li><a href="{% url 'homepage' %}">Home</a></li>
+                    <li><a href="{% url 'store' %}">Shop</a></li>
+                </ul>
+
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div><!-- Page Banner Section End -->
+
+<!-- Page Section Start -->
+<div class="page-section section section-padding">
+    <div class="container">
+        <div class="row row-30 mbn-40">
+          
+
+            <div class="col-xl-9 col-lg-8 col-12 order-1 order-lg-2 mb-40">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="product-show">
+                            <h4>Show:</h4>
+                            <select class="nice-select">
+                                <option>8</option>
+                                <option>12</option>
+                                <option>16</option>
+                                <option>20</option>
+                            </select>
+                        </div>
+                        <div class="product-short">
+                            <h4>Short by:</h4>
+                            <select class="nice-select">
+                                <option>Name Ascending</option>
+                                <option>Name Descending</option>
+                                <option>Date Ascending</option>
+                                <option>Date Descending</option>
+                                <option>Price Ascending</option>
+                                <option>Price Descending</option>
+                            </select>
+                        </div>
+                    </div>
+                    {% if products %}
+                    {% for product in products %}
+                    <div class="col-xl-4 col-md-6 col-12 mb-40">
+
+                        <div class="product-item">
+                            <div class="product-inner">
+
+                                <div class="image">
+                                    <a href="{{product.get_url}}"><img src="{{ product.images.url }}" alt="Image"></a>
+                                </div>
+
+                                <div class="content">
+
+                                    <div class="content-left">
+
+                                        <h4 class="title"><a href="{{product.get_url}}">{{product.product_name}}</a></h4>
+
+                                        <div class="ratting">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-half-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                        </div>
+
+                                        <h5 class="size">Size: <span>S</span><span>M</span><span>L</span><span>XL</span></h5>
+                                        <h5 class="color">Color: <span style="background-color: #ffb2b0"></span><span style="background-color: #0271bc"></span><span style="background-color: #efc87c"></span><span style="background-color: #00c183"></span></h5>
+
+                                    </div>
+                                    <div class="content-right">
+                                        <a href="{{product.get_url}}" class="price">${{product.price}}</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="cart-buttons mb-30">
+                                <a href="{{ product.get_url }}" class="btn btn-primary" >view details</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <div>
+                        <h2>Nothing found, please try again.</h2>
+                    </div>
+                    {% endif %}
+
+                    <div class="col-12">
+                        {% if products.has_other_pages %}
+                            <ul class="page-pagination">
+                                {% if products.has_previous %}
+                                <li ><a class="page-link" href="?page={{products.previous_page_number}}"><i class="fa fa-angle-left"></i></a></li>
+                                {% else %}
+                                <li class="disabled"><a class="page-link" href="#"><i class="fa fa-angle-left"></i></a></li>
+                                {% endif %}
+
+                                {% for i in products.paginator.page_range %}
+                                    {% if products.number == i %}
+                                        <li class="active"><a href="#">{{i}}</a></li>
+                                    {% else %}
+                                    <li class=""><a href="?page={{i}}">{{i}}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% if products.has_next %}
+                                    <li><a href="?page={{products.next_page_number}}"><i class="fa fa-angle-right"></i></a></li>
+                                {% else %}
+                                    <li class="disabled"><a class="page-link" href="#"><i class="fa fa-angle-right"></i></a></li>
+                                {% endif %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </div>
+          
+            <div class="col-xl-3 col-lg-4 col-12 order-2 order-lg-1 mb-40">
+
+                <div class="sidebar">
+                    <h4 class="sidebar-title">Category</h4>
+                    <ul class="sidebar-list">
+                        <li><a href="{% url 'store' %}">All Products</a></li>
+                        {% for category in links %}
+                        <li><a href="{{ category.get_url }}">{{ category.category_name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="sidebar">
+                    <h4 class="sidebar-title">colors</h4>
+                    <ul class="sidebar-list">
+                        <li><a href="#"><span class="color" style="background-color: #000000"></span> Black</a></li>
+                        <li><a href="#"><span class="color" style="background-color: #FF0000"></span> Red</a></li>
+                        <li><a href="#"><span class="color" style="background-color: #0000FF"></span> Blue</a></li>
+                        <li><a href="#"><span class="color" style="background-color: #28901D"></span> Green</a></li>
+                        <li><a href="#"><span class="color" style="background-color: #FF6801"></span> Orange</a></li>
+                    </ul>
+                </div>
+
+                <div class="sidebar">
+                    <h4 class="sidebar-title">Popular Product</h4>
+                    <div class="sidebar-product-wrap">
+                        <div class="sidebar-product">
+                            <a href="single-product.html" class="image"><img src="assets/images/product/product-1.jpg" alt=""></a>
+                            <div class="content">
+                                <a href="single-product.html" class="title">Tmart Baby Dress</a>
+                                <span class="price">$25 <span class="old">$38</span></span>
+                                <div class="ratting">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-half-o"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sidebar-product">
+                            <a href="single-product.html" class="image"><img src="assets/images/product/product-2.jpg" alt=""></a>
+                            <div class="content">
+                                <a href="single-product.html" class="title">Jumpsuit Outfits</a>
+                                <span class="price">$09 <span class="old">$21</span></span>
+                                <div class="ratting">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-half-o"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sidebar-product">
+                            <a href="single-product.html" class="image"><img src="assets/images/product/product-3.jpg" alt=""></a>
+                            <div class="content">
+                                <a href="single-product.html" class="title">Smart Shirt</a>
+                                <span class="price">$18 <span class="old">$29</span></span>
+                                <div class="ratting">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-half-o"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar">
+                    <h3 class="sidebar-title">Price</h3>
+
+                    <div class="sidebar-price">
+                        <div id="price-range"></div>
+                        <input type="text" id="price-amount" readonly>
+                    </div>
+                </div>
+
+                <div class="sidebar">
+                    <h3 class="sidebar-title">Tags</h3>
+                    <ul class="sidebar-tag">
+                        <li><a href="#">New</a></li>
+                        <li><a href="#">brand</a></li>
+                        <li><a href="#">black</a></li>
+                        <li><a href="#">white</a></li>
+                        <li><a href="#">chire</a></li>
+                        <li><a href="#">table</a></li>
+                        <li><a href="#">Lorem</a></li>
+                        <li><a href="#">ipsum</a></li>
+                        <li><a href="#">dolor</a></li>
+                        <li><a href="#">sit</a></li>
+                        <li><a href="#">amet</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div><!-- Page Section End -->
+
+
+{% endblock content %}
